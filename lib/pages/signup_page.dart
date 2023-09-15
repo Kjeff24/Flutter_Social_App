@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,8 @@ class LoginPage extends StatelessWidget {
               children: [
                 Spacer(),
                 Text(
-                  'Hello, Welcome back!',
+                  'Create an account to join our network',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -26,13 +27,31 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 16,
                 ),
-                Text(
-                  'Login to continue',
-                  style: TextStyle(
-                    color: Colors.white,
+                Spacer(),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Firstname',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    filled: true,
+                    fillColor: const Color.fromARGB(186, 255, 255, 255),
                   ),
                 ),
-                Spacer(),
+                SizedBox(
+                  height: 16,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Lastname',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    filled: true,
+                    fillColor: const Color.fromARGB(186, 255, 255, 255),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Username',
@@ -54,18 +73,6 @@ class LoginPage extends StatelessWidget {
                     fillColor: const Color.fromARGB(186, 255, 255, 255),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      print('Forgot is clicked');
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Text('Forgot Password?'),
-                  ),
-                ),
                 SizedBox(
                   height: 32,
                 ),
@@ -74,17 +81,17 @@ class LoginPage extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/home');
+                        Navigator.of(context).pushNamed('/');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
                         foregroundColor: Colors.black,
                       ),
-                      child: Text('Login')),
+                      child: Text('Signup')),
                 ),
                 Spacer(),
                 Text(
-                  'or sign in with',
+                  'or sign up with',
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -118,7 +125,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(
                           width: 8,
                         ),
-                        Text('Login with Google'),
+                        Text('Signup with Google'),
                       ],
                     ),
                   ),
@@ -130,7 +137,7 @@ class LoginPage extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      print('Login with Facebook');
+                      print('Signup with Facebook');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -152,7 +159,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(
                           width: 8,
                         ),
-                        Text('Login with Facebook')
+                        Text('Signup with Facebook')
                       ],
                     ),
                   ),
@@ -161,20 +168,20 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      "Already have an account? ",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/signup');
+                        Navigator.of(context).pushNamed('/');
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.amber,
                       ),
                       child: Text(
-                        "Signup",
+                        "Login",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                         ),
