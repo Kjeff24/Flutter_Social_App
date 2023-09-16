@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/config/app_strings.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -30,7 +31,7 @@ class SignupPage extends StatelessWidget {
                 Spacer(),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Firstname',
+                    hintText: AppStrings.firstName,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     filled: true,
@@ -42,7 +43,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Lastname',
+                    hintText: AppStrings.lastName,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     filled: true,
@@ -54,7 +55,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Username',
+                    hintText: AppStrings.username,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     filled: true,
@@ -66,7 +67,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Password',
+                    hintText: AppStrings.password,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     filled: true,

@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/post_item.dart';
-import 'package:flutter_application_1/styles/app_colors.dart';
+import 'package:flutter_application_1/components/toolbar.dart';
+import 'package:flutter_application_1/config/app_icons.dart';
+import 'package:flutter_application_1/config/app_strings.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
@@ -14,11 +17,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     mockUsersFromServer();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text('FriendFusion'),
-        centerTitle: false,
-        actions: [Icon(Icons.location_on_outlined)],
+      appBar: Toolbar(
+        title: AppStrings.appName,
+        actions: [
+          IconButton(
+              onPressed: () {
+                print('location clicked');
+              },
+              icon: SvgPicture.asset(AppIcons.icLocation))
+        ],
       ),
       body: ListView.separated(
         itemBuilder: (context, index) {
