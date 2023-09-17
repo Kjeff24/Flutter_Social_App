@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/post_item.dart';
 import 'package:flutter_application_1/components/toolbar.dart';
 import 'package:flutter_application_1/config/app_icons.dart';
+import 'package:flutter_application_1/config/app_routes.dart';
 import 'package:flutter_application_1/config/app_strings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                print('location clicked');
+                Navigator.of(context).pushNamed(AppRoutes.nearby);
               },
               icon: SvgPicture.asset(AppIcons.icLocation))
         ],
