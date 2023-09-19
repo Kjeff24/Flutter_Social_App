@@ -10,4 +10,5 @@ class AppIcons {
   static const icLocation = '${_svg}location.svg';
   static const icMessage = '${_svg}message.svg';
   static const icUser = '${_svg}user.svg';
+  static const icPlus = '${_svg}plus.svg';
 }

@@ -121,7 +121,7 @@ class MyBottomNavigation extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: AppColors.primary, shape: BoxShape.circle),
                 child: SvgPicture.asset(
-                  AppIcons.icMessage,
+                  AppIcons.icPlus,
                   colorFilter: ColorFilter.mode(
                       currentIndex == Menus.add
                           ? Colors.black
