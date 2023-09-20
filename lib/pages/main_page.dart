@@ -117,16 +117,12 @@ class MyBottomNavigation extends StatelessWidget {
               child: Container(
                 width: 64,
                 height: 64,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
                     color: AppColors.primary, shape: BoxShape.circle),
                 child: SvgPicture.asset(
                   AppIcons.icPlus,
-                  colorFilter: ColorFilter.mode(
-                      currentIndex == Menus.add
-                          ? Colors.black
-                          : Colors.black.withOpacity(0.3),
-                      BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                 ),
               ),
             ),

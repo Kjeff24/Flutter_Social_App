@@ -1,12 +1,21 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/app_icons.dart';
 import 'package:flutter_application_1/config/app_routes.dart';
 import 'package:flutter_application_1/config/app_strings.dart';
+import 'package:http/http.dart' as http;
+
+// Post request from flask mongodb
+const baseUrl = 'http://127.0.0.1:8080';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final loginRoute = '$baseUrl/users/login';
+  var username = '';
+  var password = '';
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +46,9 @@ class LoginPage extends StatelessWidget {
                 ),
                 Spacer(),
                 TextField(
+                  onChanged: (value) {
+                    username = value;
+                  },
                   decoration: InputDecoration(
                     hintText: AppStrings.username,
                     border: OutlineInputBorder(
@@ -49,6 +61,9 @@ class LoginPage extends StatelessWidget {
                   height: 16,
                 ),
                 TextField(
+                  onChanged: (value) {
+                    password = value;
+                  },
                   decoration: InputDecoration(
                     hintText: AppStrings.password,
                     border: OutlineInputBorder(
@@ -77,6 +92,7 @@ class LoginPage extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                       onPressed: () {
+                        // doLogin();
                         Navigator.of(context)
                             .pushReplacementNamed(AppRoutes.main);
                       },
@@ -193,5 +209,21 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String> doLogin() async {
+    final body = {
+      'username': username,
+      'password': password,
+    };
+    final response =
+        await http.post(Uri.parse(loginRoute), body: jsonEncode(body));
+    if (response.statusCode == 200) {
+      print(response.body);
+      return response.body;
+    } else {
+      print('You have error');
+      throw Exception('Error');
+    }
   }
 }
