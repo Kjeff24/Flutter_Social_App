@@ -9,7 +9,7 @@ import 'package:flutter_application_1/config/app_strings.dart';
 import 'package:http/http.dart' as http;
 
 // Post request from flask mongodb
-const baseUrl = 'http://127.0.0.1:8080';
+const baseUrl = 'http://10.0.2.2:5000';
 
 class LoginPage extends StatelessWidget {
   final loginRoute = '$baseUrl/users/login';
@@ -92,9 +92,9 @@ class LoginPage extends StatelessWidget {
                   height: 48,
                   child: ElevatedButton(
                       onPressed: () {
-                        // doLogin();
-                        Navigator.of(context)
-                            .pushReplacementNamed(AppRoutes.main);
+                        doLogin();
+                        // Navigator.of(context)
+                        //     .pushReplacementNamed(AppRoutes.main);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
@@ -211,18 +211,34 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Future<String> doLogin() async {
+  Future<Map<String, dynamic>> doLogin() async {
     final body = {
       'username': username,
       'password': password,
     };
-    final response =
-        await http.post(Uri.parse(loginRoute), body: jsonEncode(body));
-    if (response.statusCode == 200) {
-      print(response.body);
-      return response.body;
+
+    final headers = {
+      'Content-Type': 'application/json', // Set the content type to JSON
+    };
+
+    final response = await http.post(
+      Uri.parse(loginRoute),
+      headers: headers, // Set the request headers
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 201) {
+      // Successful login, parse the response JSON
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print(responseData);
+      return responseData;
+    } else if (response.statusCode == 404) {
+      // User not found, handle the error
+      print('User not found');
+      throw Exception('User not found');
     } else {
-      print('You have error');
+      // Handle other errors
+      print('An error occurred');
       throw Exception('Error');
     }
   }
