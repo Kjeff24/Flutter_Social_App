@@ -3,13 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/bottom_navigation_item.dart';
 import 'package:flutter_application_1/config/app_icons.dart';
+import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/pages/profile_page.dart';
 import 'package:flutter_application_1/styles/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final User user;
+  const MainPage({super.key, required this.user});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -21,7 +23,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: pages[currentIndex.index],
+      body: pages()[currentIndex.index],
       bottomNavigationBar: MyBottomNavigation(
         currentIndex: currentIndex,
         onTap: (value) {
@@ -33,7 +35,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  final pages = [
+  pages() => [
     HomePage(),
     Center(
       child: Text('favourite'),
@@ -44,7 +46,7 @@ class _MainPageState extends State<MainPage> {
     Center(
       child: Text('message'),
     ),
-    ProfilePage(),
+    ProfilePage(user: widget.user,),
   ];
 }
 

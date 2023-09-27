@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/app_icons.dart';
 import 'package:flutter_application_1/config/app_routes.dart';
 import 'package:flutter_application_1/config/app_strings.dart';
+import 'package:flutter_application_1/model/user.dart';
+import 'package:flutter_application_1/pages/main_page.dart';
 import 'package:http/http.dart' as http;
 
 // Post request from flask mongodb
@@ -91,10 +93,11 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                      onPressed: () {
-                        doLogin();
-                        // Navigator.of(context)
-                        //     .pushReplacementNamed(AppRoutes.main);
+                      onPressed: () async {
+                        final user = await doLogin();
+                        Navigator.of(context).push(PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
+                          return MainPage(user: user);
+                        },));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
@@ -211,7 +214,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Future<Map<String, dynamic>> doLogin() async {
+  Future<User> doLogin() async {
     final body = {
       'username': username,
       'password': password,
@@ -227,11 +230,12 @@ class LoginPage extends StatelessWidget {
       body: jsonEncode(body),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // Successful login, parse the response JSON
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      print(responseData);
-      return responseData;
+      print(response.body);
+      final json = jsonDecode(response.body);
+      final user = User.fromJson(json['data']);
+      return user;
     } else if (response.statusCode == 404) {
       // User not found, handle the error
       print('User not found');
