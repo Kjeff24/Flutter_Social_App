@@ -5,8 +5,9 @@ import 'package:flutter_application_1/components/toolbar.dart';
 import 'package:flutter_application_1/components/user_avatar.dart';
 import 'package:flutter_application_1/config/app_routes.dart';
 import 'package:flutter_application_1/config/app_strings.dart';
-import 'package:flutter_application_1/model/user.dart';
+import 'package:flutter_application_1/provider/app_repo.dart';
 import 'package:flutter_application_1/styles/app_text.dart';
+import 'package:provider/provider.dart';
 
 enum ProfileMenu {
   edit,
@@ -14,11 +15,12 @@ enum ProfileMenu {
 }
 
 class ProfilePage extends StatelessWidget {
-  final User user;
-  const ProfilePage({super.key, required this.user});
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
+    final user = context.read<AppRepo>().user;
     return Scaffold(
       appBar: Toolbar(
         title: AppStrings.profile,
@@ -61,8 +63,8 @@ class ProfilePage extends StatelessWidget {
             height: 24,
           ),
           Text(
-            '${user.firstname} ${user.lastname}',
-            style: AppText.subtitle2,
+            '${user?.firstname} ${user?.lastname}',
+            style: AppText.header2,
           ),
           SizedBox(
             height: 12,

@@ -1,24 +1,14 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/config/app_icons.dart';
 import 'package:flutter_application_1/config/app_routes.dart';
 import 'package:flutter_application_1/config/app_strings.dart';
-import 'package:flutter_application_1/model/user.dart';
-import 'package:flutter_application_1/pages/main_page.dart';
-import 'package:http/http.dart' as http;
-
-// Post request from flask mongodb
-const baseUrl = 'http://10.0.2.2:5000';
+import 'package:flutter_application_1/provider/app_repo.dart';
+import 'package:flutter_application_1/provider/login_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
-  final loginRoute = '$baseUrl/users/login';
-  var username = '';
-  var password = '';
   LoginPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +39,7 @@ class LoginPage extends StatelessWidget {
                 Spacer(),
                 TextField(
                   onChanged: (value) {
-                    username = value;
+                    context.read<LoginProvider>().username = value;
                   },
                   decoration: InputDecoration(
                     hintText: AppStrings.username,
@@ -64,7 +54,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 TextField(
                   onChanged: (value) {
-                    password = value;
+                    context.read<LoginProvider>().password = value;
                   },
                   decoration: InputDecoration(
                     hintText: AppStrings.password,
@@ -93,11 +83,15 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                      onPressed: () async {
-                        final user = await doLogin();
-                        Navigator.of(context).push(PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) {
-                          return MainPage(user: user);
-                        },));
+                      onPressed: () {
+                        context.read<LoginProvider>()
+                            .login()
+                            .then((value) {
+                          context.read<AppRepo>().user = value.user;
+                          context.read<AppRepo>().token = value.token;
+                          Navigator.of(context)
+                              .pushReplacementNamed(AppRoutes.main);
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,
@@ -212,38 +206,5 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<User> doLogin() async {
-    final body = {
-      'username': username,
-      'password': password,
-    };
-
-    final headers = {
-      'Content-Type': 'application/json', // Set the content type to JSON
-    };
-
-    final response = await http.post(
-      Uri.parse(loginRoute),
-      headers: headers, // Set the request headers
-      body: jsonEncode(body),
-    );
-
-    if (response.statusCode == 200) {
-      // Successful login, parse the response JSON
-      print(response.body);
-      final json = jsonDecode(response.body);
-      final user = User.fromJson(json['data']);
-      return user;
-    } else if (response.statusCode == 404) {
-      // User not found, handle the error
-      print('User not found');
-      throw Exception('User not found');
-    } else {
-      // Handle other errors
-      print('An error occurred');
-      throw Exception('Error');
-    }
   }
 }
